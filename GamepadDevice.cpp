@@ -13,7 +13,7 @@ GamepadCallbacks::GamepadCallbacks(GamepadDevice* device) : _device(device)
 {
 }
 
-void GamepadCallbacks::onWrite(NimBLECharacteristic* pCharacteristic)
+void GamepadCallbacks::onWrite(NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo)
 {
     ESP_LOGD(LOG_TAG, "GamepadCallbacks::onWrite, value: %s", pCharacteristic->getValue().c_str());
     
@@ -36,19 +36,19 @@ void GamepadCallbacks::onWrite(NimBLECharacteristic* pCharacteristic)
     _device->onPlayerIndicatorChanged.fire(playerIndicator);
 }
 
-void GamepadCallbacks::onRead(NimBLECharacteristic* pCharacteristic)
+void GamepadCallbacks::onRead(NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo)
 {
     ESP_LOGD(LOG_TAG, "GamepadCallbacks::onRead");
 }
 
-void GamepadCallbacks::onNotify(NimBLECharacteristic* pCharacteristic)
+void GamepadCallbacks::onStatus(NimBLECharacteristic* pCharacteristic, int code)
 {
-    ESP_LOGD(LOG_TAG, "GamepadCallbacks::onNotify");
+    ESP_LOGD(LOG_TAG, "GamepadCallbacks::onStatus, code: %d", code);
 }
 
-void GamepadCallbacks::onStatus(NimBLECharacteristic* pCharacteristic, Status status, int code)
+void GamepadCallbacks::onSubscribe(NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo, uint16_t subValue)
 {
-    ESP_LOGD(LOG_TAG, "GamepadCallbacks::onStatus, status: %d, code: %d", status, code);
+    ESP_LOGD(LOG_TAG, "GamepadCallbacks::onSubscribe");
 }
 
 GamepadDevice::GamepadDevice() : 
@@ -72,22 +72,22 @@ GamepadDevice::GamepadDevice() :
     _hat2(0),
     _hat3(0),
     _hat4(0),
-    _callbacks(nullptr),
-    _setEffectCharacteristic(nullptr),
-    _setEnvelopeCharacteristic(nullptr),
-    _setConditionCharacteristic(nullptr),
-    _setPeriodicCharacteristic(nullptr),
-    _setConstantCharacteristic(nullptr),
-    _setRampCharacteristic(nullptr),
-    _setCustomForceCharacteristic(nullptr),
-    _downloadForceCharacteristic(nullptr),
-    _effectOperationCharacteristic(nullptr),
-    _pidDeviceControlCharacteristic(nullptr),
-    _deviceGainCharacteristic(nullptr),
-    _pidState(nullptr),
-    _createNewEffect(nullptr),
-    _pidBlockLoad(nullptr),
-    _pidPool(nullptr)
+    _callbacks(nullptr)
+    // _setEffectCharacteristic(nullptr),
+    // _setEnvelopeCharacteristic(nullptr),
+    // _setConditionCharacteristic(nullptr),
+    // _setPeriodicCharacteristic(nullptr),
+    // _setConstantCharacteristic(nullptr),
+    // _setRampCharacteristic(nullptr),
+    // _setCustomForceCharacteristic(nullptr),
+    // _downloadForceCharacteristic(nullptr),
+    // _effectOperationCharacteristic(nullptr),
+    // _pidDeviceControlCharacteristic(nullptr),
+    // _deviceGainCharacteristic(nullptr),
+    // _pidState(nullptr),
+    // _createNewEffect(nullptr),
+    // _pidBlockLoad(nullptr),
+    // _pidPool(nullptr)
 {
     this->resetButtons();
 }
@@ -113,22 +113,22 @@ GamepadDevice::GamepadDevice(const GamepadConfiguration& config):
     _hat2(0),
     _hat3(0),
     _hat4(0),
-    _callbacks(nullptr),
-    _setEffectCharacteristic(nullptr),
-    _setEnvelopeCharacteristic(nullptr),
-    _setConditionCharacteristic(nullptr),
-    _setPeriodicCharacteristic(nullptr),
-    _setConstantCharacteristic(nullptr),
-    _setRampCharacteristic(nullptr),
-    _setCustomForceCharacteristic(nullptr),
-    _downloadForceCharacteristic(nullptr),
-    _effectOperationCharacteristic(nullptr),
-    _pidDeviceControlCharacteristic(nullptr),
-    _deviceGainCharacteristic(nullptr),
-    _pidState(nullptr),
-    _createNewEffect(nullptr),
-    _pidBlockLoad(nullptr),
-    _pidPool(nullptr)
+    _callbacks(nullptr)
+    // _setEffectCharacteristic(nullptr),
+    // _setEnvelopeCharacteristic(nullptr),
+    // _setConditionCharacteristic(nullptr),
+    // _setPeriodicCharacteristic(nullptr),
+    // _setConstantCharacteristic(nullptr),
+    // _setRampCharacteristic(nullptr),
+    // _setCustomForceCharacteristic(nullptr),
+    // _downloadForceCharacteristic(nullptr),
+    // _effectOperationCharacteristic(nullptr),
+    // _pidDeviceControlCharacteristic(nullptr),
+    // _deviceGainCharacteristic(nullptr),
+    // _pidState(nullptr),
+    // _createNewEffect(nullptr),
+    // _pidBlockLoad(nullptr),
+    // _pidPool(nullptr)
 {
     this->resetButtons();
 }

@@ -132,7 +132,7 @@ void BleCompositeHID::addDevice(BaseCompositeDevice *device)
 
 bool BleCompositeHID::isConnected()
 {
-    return this->_connectionStatus->connected;
+    return this->_connectionStatus->isConnected();
 }
 
 void BleCompositeHID::setBatteryLevel(uint8_t level)

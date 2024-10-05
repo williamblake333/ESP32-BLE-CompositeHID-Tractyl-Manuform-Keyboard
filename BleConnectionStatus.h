@@ -13,9 +13,11 @@ class BleConnectionStatus : public NimBLEServerCallbacks
 {
 public:
     BleConnectionStatus(void);
+    void onConnect(NimBLEServer* pServer, NimBLEConnInfo& connInfo) override;
+    void onDisconnect(NimBLEServer* pServer, NimBLEConnInfo& connInfo, int reason) override;
+    bool isConnected();
+private:
     bool connected = false;
-    void onConnect(NimBLEServer *pServer, ble_gap_conn_desc* desc);
-    void onDisconnect(NimBLEServer *pServer);
 };
 
 #endif // CONFIG_BT_NIMBLE_ROLE_PERIPHERAL

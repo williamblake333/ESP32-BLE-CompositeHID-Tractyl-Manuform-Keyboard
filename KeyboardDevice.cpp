@@ -15,24 +15,22 @@ KeyboardCallbacks::KeyboardCallbacks(KeyboardDevice* device) :
 {
 }
 
-void KeyboardCallbacks::onWrite(NimBLECharacteristic* pCharacteristic)
+void KeyboardCallbacks::onWrite(NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo)
 {
-    // An example packet we might receive from XInput might look like 0x0300002500ff00ff
     KeyboardOutputReport ledReport = pCharacteristic->getValue<uint8_t>();
     ESP_LOGD(LOG_TAG, "KeyboardDevice::onWrite - LED Report: %d", ledReport);
-
     _device->onLED.fire(ledReport);
 }
 
-void KeyboardCallbacks::onRead(NimBLECharacteristic* pCharacteristic)
+void KeyboardCallbacks::onRead(NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo)
 {
 }
 
-void KeyboardCallbacks::onNotify(NimBLECharacteristic* pCharacteristic)
+void KeyboardCallbacks::onSubscribe(NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo, uint16_t subValue)
 {
 }
 
-void KeyboardCallbacks::onStatus(NimBLECharacteristic* pCharacteristic, Status status, int code)
+void KeyboardCallbacks::onStatus(NimBLECharacteristic* pCharacteristic, int code)
 {
 }
 

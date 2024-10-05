@@ -9,6 +9,8 @@ KeyboardDevice* keyboard;
 MouseDevice* mouse;
 BleCompositeHID compositeHID("CompositeHID Keyboard and Mouse", "Mystfit", 100);
 
+bool pressed = false;
+
 void setup() {
     Serial.begin(115200);
   
@@ -48,15 +50,21 @@ void loop() {
         int8_t y = round(sin((float)millis() / 1000.0f) * 10.0f);
 
         mouse->mouseMove(x, y);
-        mouse->sendMouseReport();
 
-        // Test keyboard
         if(reportCount % 100 == 0){
+            // Test keyboard
             keyboard->keyPress(KEY_A);
             keyboard->sendKeyReport();
             keyboard->keyRelease(KEY_A);
             keyboard->sendKeyReport();
+
+            if(!pressed){
+              mouse->mousePress(MOUSE_LOGICAL_LEFT_BUTTON);
+            } else {
+              mouse->mouseRelease(MOUSE_LOGICAL_LEFT_BUTTON);
+            }
         }
+        mouse->sendMouseReport();
         
         delay(16);
     }

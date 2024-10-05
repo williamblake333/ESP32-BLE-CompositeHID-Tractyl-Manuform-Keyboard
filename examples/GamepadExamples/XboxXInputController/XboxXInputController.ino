@@ -6,7 +6,7 @@
 int ledPin = 5; // LED connected to digital pin 13
 
 XboxGamepadDevice *gamepad;
-BleCompositeHID compositeHID("CompositeHID XInput Controller", "Mystfit", 100);
+BleCompositeHID compositeHID("ESP32 SeriesX Controller", "Mystfit", 100);
 
 void OnVibrateEvent(XboxGamepadOutputReportData data)
 {
@@ -26,8 +26,8 @@ void setup()
     // Uncomment one of the following two config types depending on which controller version you want to use
     // The XBox series X controller only works on linux kernels >= 6.5
     
-    XboxOneSControllerDeviceConfiguration* config = new XboxOneSControllerDeviceConfiguration();
-    //XboxSeriesXControllerDeviceConfiguration* config = new XboxSeriesXControllerDeviceConfiguration();
+    //XboxOneSControllerDeviceConfiguration* config = new XboxOneSControllerDeviceConfiguration();
+    XboxSeriesXControllerDeviceConfiguration* config = new XboxSeriesXControllerDeviceConfiguration();
 
     // The composite HID device pretends to be a valid Xbox controller via vendor and product IDs (VID/PID).
     // Platforms like windows/linux need this in order to pick an XInput driver over the generic BLE GATT HID driver. 
@@ -130,7 +130,7 @@ void testTriggers(){
         gamepad->setLeftTrigger(val);
         gamepad->setRightTrigger(val);
         gamepad->sendGamepadReport();
-        delay(10);
+        delay(8);
     }
 }
 
@@ -149,6 +149,6 @@ void testThumbsticks(){
         if(reportCount % 8 == 0)
             Serial.println("Setting left thumb to " + String(x) + ", " + String(y));
             
-        delay(10);
+        delay(8);
     }
 }

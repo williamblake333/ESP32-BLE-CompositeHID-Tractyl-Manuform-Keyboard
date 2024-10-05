@@ -3,7 +3,10 @@
 
 #include <Arduino.h>
 #include <string>
-//#include <HIDKeyboardTypes.h>
+
+// VID Source defines. These determine from which vendor pool the VID should be sourced from
+#define VENDOR_BLUETOOTH_SOURCE 0x01
+#define VENDOR_USB_SOURCE 0x02
 
 class BLEHostConfiguration
 {

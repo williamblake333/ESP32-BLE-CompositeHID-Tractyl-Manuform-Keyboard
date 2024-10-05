@@ -14,7 +14,7 @@ XboxGamepadCallbacks::XboxGamepadCallbacks(XboxGamepadDevice* device) : _device(
 {
 }
 
-void XboxGamepadCallbacks::onWrite(NimBLECharacteristic* pCharacteristic)
+void XboxGamepadCallbacks::onWrite(NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo)
 {    
     // An example packet we might receive from XInput might look like 0x0300002500ff00ff
     XboxGamepadOutputReportData vibrationData = pCharacteristic->getValue<uint64_t>();
@@ -32,19 +32,19 @@ void XboxGamepadCallbacks::onWrite(NimBLECharacteristic* pCharacteristic)
     _device->onVibrate.fire(vibrationData);
 }
 
-void XboxGamepadCallbacks::onRead(NimBLECharacteristic* pCharacteristic)
+void XboxGamepadCallbacks::onRead(NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo)
 {
     ESP_LOGD(LOG_TAG, "XboxGamepadCallbacks::onRead");
 }
 
-void XboxGamepadCallbacks::onNotify(NimBLECharacteristic* pCharacteristic)
+void XboxGamepadCallbacks::onSubscribe(NimBLECharacteristic* pCharacteristic, NimBLEConnInfo& connInfo, uint16_t subValue)
 {
-    ESP_LOGD(LOG_TAG, "XboxGamepadCallbacks::onNotify");
+    ESP_LOGD(LOG_TAG, "XboxGamepadCallbacks::onSubscribe");
 }
 
-void XboxGamepadCallbacks::onStatus(NimBLECharacteristic* pCharacteristic, Status status, int code)
+void XboxGamepadCallbacks::onStatus(NimBLECharacteristic* pCharacteristic, int code)
 {
-    ESP_LOGD(LOG_TAG, "XboxGamepadCallbacks::onStatus, status: %d, code: %d", status, code);
+    ESP_LOGD(LOG_TAG, "XboxGamepadCallbacks::onStatus, code: %d", code);
 }
 
 XboxGamepadDevice::XboxGamepadDevice() :

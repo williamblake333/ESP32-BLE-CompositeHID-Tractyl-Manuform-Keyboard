@@ -9,8 +9,8 @@
 #include <mutex>
 
 struct KeyboardInputReport {
-    uint8_t modifiers;
-    uint8_t reserved;
+    uint8_t modifiers = 0x00;
+    uint8_t reserved = 0x00;
     uint8_t keys[6]; // 8 bits per key * 101 keys = 6 bytes
 };
 

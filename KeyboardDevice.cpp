@@ -82,8 +82,11 @@ const BaseCompositeDeviceConfiguration* KeyboardDevice::getDeviceConfig() const
 void KeyboardDevice::resetKeys()
 {
     std::lock_guard<std::mutex> lock(_mutex);
-    memset(&_inputReport, KEY_NONE, sizeof(_inputReport));
+    _inputReport.modifiers = 0x00;
+    _inputReport.reserved = 0x00;
+    memset(&_inputReport.keys, KEY_NONE, sizeof(_inputReport.keys));
     _mediaKeyInputReport.keys = 0x000000;
+
 }
 
 void KeyboardDevice::modifierKeyPress(uint8_t modifier)

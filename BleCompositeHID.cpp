@@ -267,7 +267,8 @@ void BleCompositeHID::taskServer(void *pvParameter)
     BleCompositeHIDInstance->_hid->pnp(vidSource, vid, pid, guidVersion);
     BleCompositeHIDInstance->_hid->hidInfo(0x00, 0x01);
 
-    NimBLEDevice::setSecurityAuth(BLE_SM_PAIR_AUTHREQ_BOND);  //BLE_SM_PAIR_AUTHREQ_SC
+    // NimBLEDevice::setSecurityAuth(BLE_SM_PAIR_AUTHREQ_BOND);  //BLE_SM_PAIR_AUTHREQ_SC
+	NimBLEDevice::setSecurityAuth(true, false, false); // enable bonding, no MITM, no SC
 
     // Start BLE server
     BleCompositeHIDInstance->_hid->startServices();

@@ -1,6 +1,8 @@
 #include "GamepadDevice.h"
 #include "BleCompositeHID.h"
 
+#include <stdexcept>
+
 #if defined(CONFIG_ARDUHAL_ESP_LOG)
 #include "esp32-hal-log.h"
 #define LOG_TAG "GamepadDevice"
@@ -144,10 +146,10 @@ GamepadDevice::~GamepadDevice()
 void GamepadDevice::init(NimBLEHIDDevice* hid)
 {
     // Create input characteristic to send events to the computer
-    auto input = hid->inputReport(_config.getReportId());
+    auto input = hid->getInputReport(_config.getReportId());
 
     // Create output characteristic to handle events coming from the computer
-    auto output = hid->outputReport(_config.getReportId());
+    auto output = hid->getOutputReport(_config.getReportId());
 
     // Set callbacks
     _callbacks = new GamepadCallbacks(this);

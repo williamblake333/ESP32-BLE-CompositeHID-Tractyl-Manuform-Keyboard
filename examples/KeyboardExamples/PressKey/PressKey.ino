@@ -9,15 +9,19 @@
 #define MODKEY_RANGE_MAX KEY_MOD_RMETA
 
 BleCompositeHID compositeHID("ESP32 Keyboard", "Mystfit", 100);
+BLEHostConfiguration bleHostConfig; 
 KeyboardDevice* keyboard;
 
 void setup()
 {
     Serial.begin(115200);
 
+    // Set our advertised appearance to keyboard
+    bleHostConfig.setHidType(HID_KEYBOARD);
+
     keyboard = new KeyboardDevice();
     compositeHID.addDevice(keyboard);
-    compositeHID.begin();
+    compositeHID.begin(bleHostConfig);
 
     Serial.println("Waiting for connection");
     delay(3000);

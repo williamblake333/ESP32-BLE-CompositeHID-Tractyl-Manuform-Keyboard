@@ -16,6 +16,7 @@ private:
     uint16_t _vid;
     uint16_t _pid;
 	uint16_t _guidVersion;
+    uint16_t _hid_type;
     std::string _modelNumber;
     std::string _softwareRevision;
     std::string _serialNumber;
@@ -29,6 +30,7 @@ public:
     uint16_t getVid();
     uint16_t getPid();
 	uint16_t getGuidVersion();
+    uint16_t getHidType();
     const char* getModelNumber();
     const char* getSoftwareRevision();
     const char* getSerialNumber();
@@ -40,6 +42,7 @@ public:
     void setVid(uint16_t value);
     void setPid(uint16_t value);
 	void setGuidVersion(uint16_t value);
+    void setHidType(uint16_t value);
     void setModelNumber(const char *value);
     void setSoftwareRevision(const char *value);
     void setSerialNumber(const char *value);

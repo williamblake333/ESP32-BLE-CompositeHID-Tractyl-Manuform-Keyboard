@@ -36,6 +36,7 @@ uint16_t vidSource;
 uint16_t vid;
 uint16_t pid;
 uint16_t guidVersion;
+uint16_t hidType;
 std::string modelNumber;
 std::string softwareRevision;
 std::string serialNumber;
@@ -88,6 +89,7 @@ void BleCompositeHID::begin(const BLEHostConfiguration& config)
 	vid = _configuration.getVid();
 	pid = _configuration.getPid();
 	guidVersion = _configuration.getGuidVersion();
+    hidType = _configuration.getHidType();
 
 #ifndef PNPVersionField
     // Legacy behaviour for versions of Nimble <= 1.4.1
@@ -277,7 +279,7 @@ void BleCompositeHID::taskServer(void *pvParameter)
 
     // Start BLE advertisement
     NimBLEAdvertising *pAdvertising = pServer->getAdvertising();
-    pAdvertising->setAppearance(GENERIC_HID);
+    pAdvertising->setAppearance(hidType);
     pAdvertising->addServiceUUID(BleCompositeHIDInstance->_hid->getHidService()->getUUID());
     pAdvertising->start();
     ESP_LOGD(LOG_TAG, "Advertising started!");

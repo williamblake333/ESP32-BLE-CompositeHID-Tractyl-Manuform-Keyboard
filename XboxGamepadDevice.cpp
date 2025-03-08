@@ -101,6 +101,11 @@ const BaseCompositeDeviceConfiguration* XboxGamepadDevice::getDeviceConfig() con
 void XboxGamepadDevice::resetInputs() {
     std::lock_guard<std::mutex> lock(_mutex);
     memset(&_inputReport, 0, sizeof(XboxGamepadInputReportData));
+
+    _inputReport.x = XBOX_AXIS_CENTER_OFFSET;
+    _inputReport.y = XBOX_AXIS_CENTER_OFFSET;
+    _inputReport.z = XBOX_AXIS_CENTER_OFFSET;
+    _inputReport.rz = XBOX_AXIS_CENTER_OFFSET;
 }
 
 void XboxGamepadDevice::press(uint16_t button) {
@@ -149,8 +154,8 @@ void XboxGamepadDevice::setLeftThumb(int16_t x, int16_t y) {
     if(_inputReport.x != x || _inputReport.y != y){
         {
             std::lock_guard<std::mutex> lock(_mutex);
-            _inputReport.x = (uint16_t)(x + 0x8000);
-            _inputReport.y = (uint16_t)(y + 0x8000);
+            _inputReport.x = (uint16_t)(x + XBOX_AXIS_CENTER_OFFSET);
+            _inputReport.y = (uint16_t)(y + XBOX_AXIS_CENTER_OFFSET);
         }
 
         if (_config->getAutoReport())
@@ -167,8 +172,8 @@ void XboxGamepadDevice::setRightThumb(int16_t z, int16_t rZ) {
     if(_inputReport.z != z || _inputReport.rz != rZ){
         {
             std::lock_guard<std::mutex> lock(_mutex);
-            _inputReport.z = (uint16_t)(z + 0x8000);
-            _inputReport.rz = (uint16_t)(rZ+ 0x8000);
+            _inputReport.z = (uint16_t)(z + XBOX_AXIS_CENTER_OFFSET);
+            _inputReport.rz = (uint16_t)(rZ+ XBOX_AXIS_CENTER_OFFSET);
         }
 
         if (_config->getAutoReport())

@@ -61,6 +61,8 @@ enum XboxDpadFlags : uint8_t {
 #define XBOX_STICK_MIN -32768
 #define XBOX_STICK_MAX 32767
 
+#define XBOX_AXIS_CENTER_OFFSET 0x8000
+
 
 // Forwards
 class XboxGamepadDevice;

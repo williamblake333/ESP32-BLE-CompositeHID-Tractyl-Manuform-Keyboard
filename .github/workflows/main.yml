@@ -47,14 +47,14 @@ jobs:
             - examples/GamepadExamples/SingleButton/SingleButton.ino
             - examples/GamepadExamples/SpecialButtons/SpecialButtons.ino
             - examples/GamepadExamples/TestAll/TestAll.ino
-            - examples/GamepadExamples/XboxXInputController/XboxXInputController.ino
+            - examples/XInputExamples/XboxXInputController/XboxXInputController.ino
             - examples/KeyboardExamples/KeyboardLEDs/KeyboardLEDs.ino
             - examples/KeyboardExamples/MediaKeys/MediaKeys.ino
             - examples/KeyboardExamples/PressKey/PressKey.ino
             - examples/MultipleDeviceExamples/DeferredReports/DeferredReports.ino
             - examples/MultipleDeviceExamples/GamepadAndMouse/GamepadAndMouse.ino
             - examples/MultipleDeviceExamples/GamepadMouseKeyboard/GamepadMouseKeyboard.ino
-            - examples/MultipleDeviceExamples/MouseAndKeyboard/MouseAndKeyboard.ino
+            - examples/MultipleDeviceExamples/XBoxControllerAndKeyboard/XBoxControllerAndKeyboard.ino
             - examples/SetBatteryLevel/SetBatteryLevel.ino
           libraries: |
             - name: callback

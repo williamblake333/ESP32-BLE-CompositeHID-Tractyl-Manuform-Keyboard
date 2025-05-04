@@ -1,165 +1,82 @@
-# ESP32-BLE-CompositeHID
+# BLE Gamepad for BPI Leaf S3
 
-Forked from ESP32-BLE-Gamepad by lemmingDev to provide support support for composite human interface devices.
+This project implements a Bluetooth Low Energy (BLE) gamepad using the BPI Leaf S3 development board based on the ESP32-S3 microcontroller. The gamepad features:
 
-This library will let your ESP32 microcontroller behave as a bluetooth mouse, keyboard, gamepad (XInput or generic), or a combination of any of these devices.
+- A 5x5 matrix keyboard with 21 buttons
+- An analog joystick
+- An ADNS5050 optical mouse sensor
 
-## License
-Published under the MIT license. Please see license.txt.
+The implementation uses the ESP32-BLE-CompositeHID library to create a composite device that functions as both a gamepad and mouse.
 
-## Dependencies
- - Nimble-Arduino. Actual version support Nimble-Arduino-2.1.2
- - Callback. Available from the Arduino library manager or [here](https://github.com/tomstewart89/Callback).
+## Hardware Requirements
 
-## Optional dependencies
- - Keypad 
- - Bounce2
-   
-## XInput gamepad features
+- BPI Leaf S3 (ESP32-S3) development board
+- 5x5 matrix keyboard (utilizing 21 buttons)
+- Analog joystick with X and Y axes
+- ADNS5050 optical mouse sensor
+- Wires and connecting hardware
 
- - [x] All buttons and joystick axes available
- - [x] XBox One S and XBox Series X controller support
- - [x] Linux XInput support (Kernel version < 6.5 only supports the XBox One S controller)
- - [x] Haptic feedback callbacks for strong and weak motor rumble support
- - [ ] LED support (pull requests welcome)
+## Wiring Configuration
 
-## Generic gamepad features (from ESP32-BLE-Gamepad)
+### Matrix Keyboard
+The keyboard is arranged in a 5x5 matrix with 21 buttons:
+- Rows: 5 pins (default: GPIO 10, 11, 12, 13, 14)
+- Columns: 5 pins (default: GPIO 15, 16, 17, 18, 19)
 
- - [x] Button press (128 buttons)
- - [x] Button release (128 buttons)
- - [x] Axes movement (6 axes (configurable resolution up to 16 bit) (x, y, z, rZ, rX, rY) --> (Left Thumb X, Left Thumb Y, Right Thumb X, Right Thumb Y, Left Trigger, Right Trigger))
- - [x] 2 Sliders (configurable resolution up to 16 bit) (Slider 1 and Slider 2)
- - [x] 4 point of view hats (ie. d-pad plus 3 other hat switches)
- - [x] Simulation controls (rudder, throttle, accelerator, brake, steering)
- - [x] Special buttons (start, select, menu, home, back, volume up, volume down, volume mute) all disabled by default
+### Analog Joystick
+- X-axis: Connected to GPIO 1
+- Y-axis: Connected to GPIO 2
 
-## Mouse features
- - [x] Configurable button count
- - [x] X and Y axes
- - [ ] Configurable axes
+### ADNS5050 Mouse Sensor
+- SCLK: Connected to GPIO 7
+- SDIO: Connected to GPIO 6
+- NCS: Connected to GPIO 5
+- NRESET: Connected to GPIO 4
 
-## Keyboard features
- - [x] Supports most USB HID scancodes
- - [x] Media key support
- - [x] LED callbacks for caps/num/scroll lock keys
+## Software Dependencies
 
-## Composite BLE host features (adapted from ESP32-BLE-Gamepad)
- - [x] Configurable HID descriptors per device
- - [x] Configurable VID and PID values
- - [x] Configurable BLE characteristics (name, manufacturer, model number, software revision, serial number, firmware revision, hardware revision)	
- - [x] Report optional battery level to host
- - [x] Uses efficient NimBLE bluetooth library
- - [x] Compatible with Windows
- - [x] Compatible with Android (Android OS maps default buttons / axes / hats slightly differently than Windows)
- - [x] Compatible with Linux (limited testing)
- - [x] Compatible with MacOS X (limited testing)
- - [ ] Compatible with iOS (No - not even for accessibility switch - This is not a “Made for iPhone” (MFI) compatible device)
+This project requires the following libraries:
+- ESP32-BLE-CompositeHID (forked from ESP32-BLE-Gamepad)
+- Keypad
+- Arduino core for ESP32
 
-## Installation
-- (Make sure your IDE of choice has support for ESP32 boards available. [Instructions can be found here.](https://github.com/espressif/arduino-esp32#installation-instructions))
-- Download the zip version of this library from Github using either the "Code" -> "Download Zip" button or by cloning this repository to your Arduino library folder. If using the downloaded zip method, in the Arduino IDE go to "Sketch" -> "Include Library" -> "Add .ZIP Library..." and select the file you just downloaded.
-- Repeat the previous step but for the [NimBLE library](https://github.com/h2zero/NimBLE-Arduino)
-- Using the Arduino IDE Library manager, download the "Callback" library by Tom Stewart.
-- In the Arduino IDE, you can now go to "File" -> "Examples" -> "ESP32-BLE-CompositeHID" and select an example to get started.
+## Code Structure
 
-## Example
+The project is structured with the following classes:
 
-``` C++
-#include <BleCompositeHID.h>
-#include <KeyboardDevice.h>
-#include <MouseDevice.h>
-#include <GamepadDevice.h>
+1. `ADNS5050`: Handles communication with the optical mouse sensor
+2. `MatrixKeyboard`: Manages the keyboard matrix and button mapping
+3. `AnalogJoystick`: Reads and calibrates the analog joystick
 
-GamepadDevice gamepad;
-KeyboardDevice keyboard;
-MouseDevice mouse;
-BleCompositeHID compositeHID("CompositeHID Keyboard Mouse Gamepad", "Mystfit", 100);
+The main file initializes all components and manages the Bluetooth connection.
 
-void setup() {
-    Serial.begin(115200);
+## Installation and Setup
 
-     // Add all devices to the composite HID device to manage them
-    compositeHID.addDevice(&keyboard);
-    compositeHID.addDevice(&mouse);
-    compositeHID.addDevice(&gamepad);
+1. Install the required libraries using the Arduino Library Manager
+2. Connect the hardware as described in the wiring configuration
+3. Upload the code to your BPI Leaf S3 board
+4. Pair the device with your computer or gaming console
 
-    // Start the composite HID device to broadcast HID reports
-    compositeHID.begin();
+## Customization
 
-    delay(3000);
-}
+You can customize the project by:
+- Adjusting pin assignments in the pin definitions
+- Modifying the button mapping in the matrix keyboard configuration
+- Tuning the joystick deadzone value
+- Changing the mouse sensitivity
 
-void loop() {
-  if(compositeHID.isConnected()){
+## Troubleshooting
 
-    // Test mouse by moving it in a circle
-    int startTime = millis();
-    int reportCount = 0;
+If you encounter issues with the device not being recognized:
+1. Check that the BLE connection is established
+2. Ensure all components are properly wired
+3. Verify the product ID of the ADNS5050 sensor
+4. Check the serial monitor for debug information
 
-    int8_t lastX = 0;
-    int8_t lastY = 0;
-    bool gamepadPressed = false;
+## Future Improvements
 
-    while(millis() - startTime < 8000){
-        reportCount++;
-        int8_t x = round(cos((float)millis() / 1000.0f) * 10.0f);
-        int8_t y = round(sin((float)millis() / 1000.0f) * 10.0f);
-        mouse->mouseMove(x, y);
-
-        // Test keyboard presses
-        if(reportCount % 100 == 0){
-            keyboard->keyPress(KEY_A);
-            keyboard->keyRelease(KEY_A);
-        }
-
-        // Test gamepad button presses
-        if(reportCount % 100 == 0){
-            gamepadPressed = !gamepadPressed;
-            if(gamepadPressed)
-                gamepad->press(BUTTON_1);
-            else
-                gamepad->release(BUTTON_1);
-        }
-        
-        delay(16);
-    }
-  }
-}
-
-```
-By default, reports are sent on every button press/release or axis/slider/hat/simulation movement, however this can be disabled, and then you manually call sendReport on each device instance as shown in the IndividualAxes.ino example.
-
-VID and PID values can be set. See TestAll.ino for example.
-
-There is also Bluetooth specific information that you can use (optional):
-
-Instead of `BleCompositeHID bleCompositeHID;` you can do `BleCompositeHID bleCompositeHID("Bluetooth Device Name", "Bluetooth Device Manufacturer", 100);`.
-The third parameter is the initial battery level of your device.
-By default the battery level will be set to 100%, the device name will be `Composite HID` and the manufacturer will be `Espressif`.
-
-The battery level can be set during operation by calling, for example, `bleCompositeHID.setBatteryLevel(80);`
-
-## Credits for ESP32-BLE-CompositeHID
-
-Credit goes to lemmingDev for his work on [ESP32-BLE-Gamepad](https://github.com/lemmingDev/ESP32-BLE-Gamepad) which most of the gamepad portion of this library was based upon. 
-
-USB HID codes for keyboards created by MightyPork, 2016 (see KeyboardHIDCodes.h)
-
-## Credits for ESP32-BLE-Gamepad
-
-Credits to [T-vK](https://github.com/T-vK) as this library is based on his ESP32-BLE-Mouse library (https://github.com/T-vK/ESP32-BLE-Mouse) that he provided.
-
-Credits to [chegewara](https://github.com/chegewara) as the ESP32-BLE-Mouse library is based on [this piece of code](https://github.com/nkolban/esp32-snippets/issues/230#issuecomment-473135679) that he provided.
-
-Credits to [wakwak-koba](https://github.com/wakwak-koba) for the NimBLE [code](https://github.com/wakwak-koba/ESP32-NimBLE-Gamepad) that he provided.
-
-
-You might also be interested in:
-- [ESP32-BLE-Mouse](https://github.com/T-vK/ESP32-BLE-Mouse)
-- [ESP32-BLE-Keyboard](https://github.com/T-vK/ESP32-BLE-Keyboard)
-
-or the NimBLE versions at
-
-- [ESP32-NimBLE-Mouse](https://github.com/wakwak-koba/ESP32-NimBLE-Mouse)
-- [ESP32-NimBLE-Keyboard](https://github.com/wakwak-koba/ESP32-NimBLE-Keyboard)
-- [ESP32-BLE-Gamepad](https://github.com/lemmingDev/ESP32-BLE-Gamepad)
+Potential enhancements for this project:
+- Add configuration options via a web interface
+- Implement button mapping profiles
+- Add battery level monitoring
+- Optimize power consumption for longer battery life
